@@ -1,0 +1,90 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html * {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+
+.input-zone {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+}
+
+.input-zone-input {
+  flex: 0;
+  margin-right: 10px;
+}
+
+.options {
+  margin: 10px;
+}
+
+.container {
+  display: flex;
+}
+
+.value-container {
+  display: flex;
+  align-items: center;
+}
+
+.valuelabel {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 50px;
+  margin-left: 20px;
+}
+.valuemeter {
+  margin-left: 20px;
+}
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+  }
+  
+  /* The slider itself */
+  .slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+  }
+  
+  /* Mouse-over effects */
+  .slider:hover {
+    opacity: 1; /* Fully shown on mouse-over */
+  }
+  
+  /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 25px; /* Set a specific slider handle width */
+    height: 25px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+  }
+
+/*# sourceMappingURL=main.94d52e00e22506d79009.css.map*/

@@ -5,13 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pairwise</title>
   </head>
-  <body>    
-    <div class="input-zone">
-      <label id="lblOption" for="tbOption">Option:</label>
-      <input id="tbOption" class="input-zone-input" type="text" />
-      <button id="btnAdd">Add</button>
+  <body>
+    <h1>Rank options pairwise</h1>
+    <div id="divOptions" class="options">
+      <div>
+        <div>
+          <input type="number" min="3" max="1000" id="inpRange" name="inpRange">
+          <label for="inpRange">Range size</label>  
+        </div>
+        <div>
+          <input id="tbOption" type="text" />
+          <button id="btnAdd" style="display: inline-block;">Add Option</button>  
+        </div>
+        
+      </div>
+      <div class="container">
+        <div id="div-names"></div>
+        <div id="div-values"></div>
+      </div>
     </div>
-    <div id="divOptions" class="messages"></div>
-    <button id="btnStart">Start</button>
+    <button id="btnStart">Start evaluation</button>
+    <div id="divSliders" class="options">
+    </div>
   </body>
 </html>
