@@ -1,14 +1,15 @@
 import "./css/main.css";
 import "./css/slider.css";
 
-const divOptions: HTMLDivElement = document.querySelector("#divOptions");
-const tbOption: HTMLInputElement = document.querySelector("#tbOption");
+const inpOption: HTMLInputElement = document.querySelector("#inpOption");
 const btnAdd: HTMLButtonElement = document.querySelector("#btnAdd");
 const btnStart: HTMLButtonElement = document.querySelector("#btnStart");
 const divSliders: HTMLDivElement = document.querySelector("#divSliders");
 const inpRange: HTMLInputElement = document.querySelector("#inpRange");
 const divNames: HTMLDivElement = document.querySelector("#div-names");
 const divValues: HTMLDivElement = document.querySelector("#div-values");
+const in1: HTMLDivElement = document.querySelector("#in1");
+const in2: HTMLDivElement = document.querySelector("#in2");
 
 let options: string[] = [];
 let arr: number[][] = [];
@@ -16,25 +17,27 @@ let max: number = 100;  // default
 
 inpRange.value = max.toString();
 
+divValues.classList.add("hide");
+divSliders.classList.add("hide");
+
 inpRange.onchange = () => {
   max = parseInt(inpRange.value);
 }
 
 btnAdd.addEventListener("click", () => addOption());
-tbOption.addEventListener("keypress", (event) => {
+inpOption.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
     addOption();
   }
 });
 
-
-
 function addOption() {
-  let optionName = tbOption.value;
-  tbOption.value = "";
+  let optionName = inpOption.value;
+  inpOption.value = "";
 
   let name = document.createElement("div");
+  name.classList.add("value-container")
   name.id = `O${options.length}`;
   name.innerText = optionName;
   divNames.appendChild(name);
@@ -42,14 +45,12 @@ function addOption() {
   let value = document.createElement("div");
   value.classList.add("value-container")
   value.innerHTML = `
-    <label class="valuelabel" id="V${options.length}"></label>
-    <meter class="valuemeter" id="M${options.length}" min=0 ></meter>
+    <label class="value-label" id="V${options.length}">0</label>
+    <meter class="value-meter" id="M${options.length}" min=0 ></meter>
   `
   divValues.appendChild(value);
   options.push(optionName);
 }
-
-
 
 function initArray(size: number, value: number): number[][]  {
   let array: number[][] = [];
@@ -58,37 +59,25 @@ function initArray(size: number, value: number): number[][]  {
     for(let x = 0; x < size; x++) {
       line.push((x===y) ? 0 : value);
     }
-    line.push(0); // additional field for sum
-    sumLine(line);
-    array.push(line); 
-    
-    updateDisplay(y, line[line.length-1], max * (line.length-2) / (line.length-1));
+    array.push(line);      
+    updateDisplay(y, sumLine(line), size, max)
   }
   return array;  
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 btnStart.addEventListener("click", () => {
+
+  in1.classList.add("hide");
+  in2.classList.add("hide");
+  divValues.classList.remove("hide");
+  divSliders.classList.remove("hide");
 
   arr = initArray(options.length, max/2);
 
-
-  
   for(let y = 0; y < options.length; y++) {
     for(let x = 0; x < options.length; x++) {
       if (x>y) {
-        console.log(`O${y} <-> O${x}`);
+        //console.log(`O${y} <-> O${x}`);
         let div = document.createElement("div");
         div.classList.add("slidecontainer");
         div.innerHTML =
@@ -99,15 +88,14 @@ btnStart.addEventListener("click", () => {
         divSliders.appendChild(div);
         let slider: HTMLInputElement = document.querySelector(`#Y${y}X${x}`);
         slider.oninput = () => {
+          
           arr[y][x] = max - parseInt(slider.value);
           arr[x][y] = parseInt(slider.value);
-          sumLine(arr[y]);
-          sumLine(arr[x]);
-          let maxValue = max * (arr[y].length-2) / (arr[y].length-1);
-          updateDisplay(y, arr[y][arr[y].length-1], maxValue);
-          updateDisplay(x, arr[x][arr[x].length-1], maxValue);
 
-          console.log(arr);
+          updateDisplay(y, sumLine(arr[y]), options.length, max);
+          updateDisplay(x, sumLine(arr[x]), options.length, max);
+
+          //console.log(arr);
         }
       }
     }
@@ -115,36 +103,37 @@ btnStart.addEventListener("click", () => {
 });
 
 function sumLine(line: number[]) {
-  line[line.length-1] = 0; //clear sum
-  for(let i=0; i < line.length-1; i++) {
-    line[line.length-1] += line[i]/(line.length-1);
+  let sum = 0;
+  for(let i=0; i < line.length; i++) {
+    sum += line[i];
   }
-  let value = max * (options.length -1) / options.length;
+  return sum;
 }
 
+function updateDisplay(option: number, sum: number, size: number, max: number) {
 
-function sum(option: number) {
-  arr[option][options.length] = 0;  //clear sum
-  for(let i=0; i< options.length; i++) {
-    arr[option][options.length] += arr[option][i]/options.length;
-  }
-}
+  let displayValue = sum / (size * max/2 * (size -1));
+  let meterVal = sum;
+  let meterMax = max * (size-1); 
 
-function updateDisplay(option: number, value: number, max: number) {
-  let label = document.querySelector(`#V${option}`);
-  label.innerHTML = value.toString();
+  let label = document.querySelector(`#V${option}`);  
+   
+  label.innerHTML = formatAsPercentage(displayValue);
 
   let meter = document.querySelector(`#M${option}`) as HTMLMeterElement;
-  meter.max = max;
-  meter.value = value;
+  meter.max = meterMax;
+  meter.value = meterVal;
+}
 
+function formatAsPercentage(num: number): string {
+  return new Intl.NumberFormat('default', {
+    style: 'percent',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(num);
 }
 
 
 
-function display() {
-  for(let i=0; i< options.length; i++) {
-    document.querySelector(`#V${i}`).innerHTML = arr[i][options.length].toString();
-  }
-}
+
 

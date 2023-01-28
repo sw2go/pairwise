@@ -6,26 +6,28 @@
     <title>Pairwise</title>
   </head>
   <body>
-    <h1>Rank options pairwise</h1>
-    <div id="divOptions" class="options">
-      <div>
-        <div>
-          <input type="number" min="3" max="1000" id="inpRange" name="inpRange">
-          <label for="inpRange">Range size</label>  
-        </div>
-        <div>
-          <input id="tbOption" type="text" />
-          <button id="btnAdd" style="display: inline-block;">Add Option</button>  
-        </div>
-        
-      </div>
+    <div class="content">
+      <h1>Rank options pairwise</h1>
+      <h2>Options</h2>
       <div class="container">
         <div id="div-names"></div>
         <div id="div-values"></div>
       </div>
-    </div>
-    <button id="btnStart">Start evaluation</button>
-    <div id="divSliders" class="options">
+      <div id="in1" class="row">
+        <input id="inpOption" type="text" />
+        <button id="btnAdd">Add option</button>
+      </div> 
+      <h2>Evaluation</h2>
+      <div id="in2" class="row">
+        <div>
+          <input type="number" min="3" max="1000" id="inpRange" name="inpRange">
+          <label for="inpRange">Slider resolution</label>   
+        </div>
+        <button id="btnStart">Start</button> 
+      </div>      
+      <div id="divSliders">
+        <p>Look at each pair of options and drag the slider towards the option you prefer.</p>
+      </div>
     </div>
   </body>
 </html>
