@@ -1,1 +1,40 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pairwise</title><script defer="defer" src="./main.9daeed327486613a6e66.js"></script><link href="./css/main.9daeed327486613a6e66.css" rel="stylesheet"></head><body><div class="content"><h1>Rank options pairwise</h1><h2>Options</h2><div class="container"><div id="div-names"></div><div id="div-values"></div></div><div id="in1" class="row"><input id="inpOption"/> <button id="btnAdd">Add option</button></div><h2>Evaluation</h2><div id="in2" class="row"><div><input type="number" min="3" max="1000" id="inpRange" name="inpRange"> <label for="inpRange">Slider resolution</label></div><button id="btnStart">Start</button></div><div id="divSliders"><p>Look at each pair of options and drag the slider towards the option you prefer.</p></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pairwise</title>
+  <script defer src="./main.f698d723fe3697b109fc.js"></script><link href="./css/main.f698d723fe3697b109fc.css" rel="stylesheet"></head>
+  <body>
+    <div class="content">
+      <h1>Rank options pairwise</h1>
+      <h2>Options</h2>
+      <div class="container">
+        <div id="div-names"></div>
+        <div id="div-values"></div>
+      </div>
+      <div id="in1" class="row">
+        <input id="inpOption" type="text" />
+        <button id="btnAdd">Add option</button>
+      </div>
+      <div id="in3" class="hide">
+        <label  class="checkbox-container">Order by preference
+          <input id="inpSort" type="checkbox" checked="checked">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+
+      <h2>Evaluation</h2>
+      <div id="in2" class="row">
+        <div>
+          <input type="number" min="3" max="1000" id="inpRange" name="inpRange">
+          <label for="inpRange">Slider resolution</label>   
+        </div>
+        <button id="btnStart">Start</button> 
+      </div>      
+      <div id="divSliders">
+        <p>Look at each line and drag the slider toward the option you prefer.</p>
+      </div>
+    </div>
+  </body>
+</html>

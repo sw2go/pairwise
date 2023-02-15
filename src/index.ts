@@ -1,5 +1,6 @@
 import "./css/main.css";
 import "./css/slider.css";
+import "./css/checkbox.css";
 
 const inpOption: HTMLInputElement = document.querySelector("#inpOption");
 const btnAdd: HTMLButtonElement = document.querySelector("#btnAdd");
@@ -10,8 +11,10 @@ const divNames: HTMLDivElement = document.querySelector("#div-names");
 const divValues: HTMLDivElement = document.querySelector("#div-values");
 const in1: HTMLDivElement = document.querySelector("#in1");
 const in2: HTMLDivElement = document.querySelector("#in2");
+const in3: HTMLDivElement = document.querySelector("#in3");
+const inpSort: HTMLInputElement = document.querySelector("#inpSort");
 
-let options: string[] = [];
+let options: Option[] = [];
 let arr: number[][] = [];
 let max: number = 100;  // default
 
@@ -32,6 +35,10 @@ inpOption.addEventListener("keypress", (event) => {
   }
 });
 
+inpSort.addEventListener("change", () => {
+  sortDisplay(inpSort.checked);
+});
+
 function addOption() {
   let optionName = inpOption.value;
   inpOption.value = "";
@@ -43,13 +50,15 @@ function addOption() {
   divNames.appendChild(name);
   
   let value = document.createElement("div");
-  value.classList.add("value-container")
+  value.classList.add("value-container");
+  value.id = `W${options.length}`;
   value.innerHTML = `
     <label class="value-label" id="V${options.length}">0</label>
     <meter class="value-meter" id="M${options.length}" min=0 ></meter>
   `
   divValues.appendChild(value);
-  options.push(optionName);
+
+  options.push({ id: options.length, name: optionName, value: 0 });
 }
 
 function initArray(size: number, value: number): number[][]  {
@@ -71,20 +80,20 @@ btnStart.addEventListener("click", () => {
   in2.classList.add("hide");
   divValues.classList.remove("hide");
   divSliders.classList.remove("hide");
+  in3.classList.remove("hide");
 
   arr = initArray(options.length, max/2);
 
   for(let y = 0; y < options.length; y++) {
+    options[y].value =  max * (options.length-1)/2;
     for(let x = 0; x < options.length; x++) {
       if (x>y) {
         //console.log(`O${y} <-> O${x}`);
         let div = document.createElement("div");
         div.classList.add("slidecontainer");
         div.innerHTML =
-        `
-          <div style="float: left;">${options[y]}</div><div style="float: right;">${options[x]}</div>
-          <input type="range" min="0" max="${max}" value=${max/2} class="slider" id="Y${y}X${x}">
-        `
+        `<div style="float: left;">${options[y].name}</div><div style="float: right;">${options[x].name}</div>
+         <input type="range" min="0" max="${max}" value=${max/2} class="slider" id="Y${y}X${x}">`
         divSliders.appendChild(div);
         let slider: HTMLInputElement = document.querySelector(`#Y${y}X${x}`);
         slider.oninput = () => {
@@ -92,8 +101,17 @@ btnStart.addEventListener("click", () => {
           arr[y][x] = max - parseInt(slider.value);
           arr[x][y] = parseInt(slider.value);
 
-          updateDisplay(y, sumLine(arr[y]), options.length, max);
-          updateDisplay(x, sumLine(arr[x]), options.length, max);
+          options[y].value = sumLine(arr[y]);
+          options[x].value = sumLine(arr[x]);
+
+          updateDisplay(y, options[y].value, options.length, max);
+          updateDisplay(x, options[x].value, options.length, max);
+
+          
+
+          sortDisplay(inpSort.checked);
+
+
 
           //console.log(arr);
         }
@@ -133,6 +151,25 @@ function formatAsPercentage(num: number): string {
   }).format(num);
 }
 
+function sortDisplay(sort: boolean) {
+
+  const sorted =  sort ? [...options].sort((a, b) => b.value - a.value) : options;
+
+  sorted.forEach((item) => {
+    divNames.appendChild(document.querySelector(`#O${item.id}`));
+    divValues.appendChild(document.querySelector(`#W${item.id}`));
+  });
+
+}
+
+
+
+
+class Option {
+  id: number;
+  name: string;
+  value: number;
+}
 
 
 

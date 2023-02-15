@@ -1,3 +1,6 @@
+/*!********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/main.css ***!
+  \********************************************************************/
 *,
 *::before,
 *::after {
@@ -79,6 +82,9 @@ button:hover {
   margin-left: 20px;
   width: 100%;
 }
+/*!**********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/css/slider.css ***!
+  \**********************************************************************/
 .slidecontainer {
     width: 100%; /* Width of the outside container */
   }
@@ -118,4 +124,4 @@ button:hover {
     cursor: pointer; /* Cursor on hover */
   }
 
-/*# sourceMappingURL=main.9daeed327486613a6e66.css.map*/
+/*# sourceMappingURL=main.dea7b1fd5b6772311e55.css.map*/
